@@ -29,22 +29,17 @@ provider:
     cors: true
   environment:
     S3BUCKET: ${self:custom.s3config.bucket}
-
-# Lambda function's IAM Role
-iam:
-  role:
-    statements:
-      - Effect: "Allow"
-        Action:
-          - "s3:ListBucket"
-          - "s3:GetBucketLocation"
-          - "s3:PutObject"
-          - "s3:GetObject"
-        Resource: arn:aws:s3:::${self:custom.config.bucket}*
-
-# Service wide environment variables
-environment:
-  S3BUCKET: ${self:custom.s3config.bucket}
+  # Lambda function's IAM Role
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:ListBucket"
+            - "s3:GetBucketLocation"
+            - "s3:PutObject"
+            - "s3:GetObject"
+          Resource: arn:aws:s3:::${self:custom.s3config.bucket}*
 
 functions:
   tagger:
