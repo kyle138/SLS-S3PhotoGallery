@@ -41,10 +41,6 @@ provider:
             - "s3:GetObject"
           Resource: arn:aws:s3:::${self:custom.s3config.bucket}*
 
-# Service wide environment variables
-environment:
-  S3BUCKET: ${self:custom.s3config.bucket}
-
 functions:
   tagger:
     handler: lambdas/tagger.handler
