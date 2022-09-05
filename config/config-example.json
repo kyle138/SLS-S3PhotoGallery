@@ -1,0 +1,8 @@
+{
+  "dev1": {
+    "bucket": "dev-photos.kylemunz.com"
+  },
+  "v1": {
+    "bucket": "photos.kylemunz.com"
+  }
+}

@@ -55,10 +55,6 @@ functions:
           bucket: ${self:custom.s3config.bucket}
           event: s3:ObjectTagging:*
 
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
 # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
