@@ -22,6 +22,7 @@ module.exports.handler = async (event) => {
 
   console.log('resp: ' + JSON.stringify(resp,null,2));  // DEBUG:
 
-  let labels = arr.find(o => o.Key === 'labels');
+  let labels = resp?.TagSet.find(o => o.Key === 'labels')?.Value;
+  labels = labels?.Value.split(':');
   console.log('labels: ' + JSON.stringify(labels,null,2));  // DEBUG: 
 };
