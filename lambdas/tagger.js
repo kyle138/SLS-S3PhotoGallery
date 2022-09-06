@@ -10,7 +10,7 @@ const S3 = new AWS.S3({
 // Is 'Instantialize' a real word?
 
 module.exports.handler = async (event) => {
-  console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
+  // console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
 
   let bucket = event.Records[0].s3.bucket.name;
   let key = event.Records[0].s3.object.key;
@@ -20,6 +20,8 @@ module.exports.handler = async (event) => {
     Key: key
   }).promise();
 
-  console.log(resp);  // DEBUG:
+  console.log('resp: ' + JSON.stringify(resp,null,2));  // DEBUG:
 
+  let labels = arr.find(o => o.Key === 'labels');
+  console.log('labels: ' + JSON.stringify(labels,null,2));  // DEBUG: 
 };
