@@ -1,8 +1,5 @@
 'use strict';
 
-import { S3Client, GetObjectTaggingCommand } from "@aws-sdk/client-s3"
-
-const client = new S3Client({ region: "us-east-1" });
 
 module.exports.handler = async (event) => {
   console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
