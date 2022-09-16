@@ -10,11 +10,14 @@ const S3 = new AWS.S3({
 // Is 'Instantialize' a real word?
 
 module.exports.handler = async (event) => {
-  // console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
+  console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
 
   // *** Check that records, s3, etc etc actually exists...
   let bucket = event.Records[0].s3.bucket.name;
   let key = event.Records[0].s3.object.key;
+  // **************************************
+  // Batch job seems to trigger 1 lambda per object, but let's Promise.all[] for all records to be safe...
+  // **************************************
 
   // *** if the above exists...
   const resp = await S3.getObjectTagging({
