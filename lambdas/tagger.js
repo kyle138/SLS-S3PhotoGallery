@@ -1,15 +1,12 @@
 'use strict';
 
-const AWS = require('aws-sdk');
+// add/configure modules
+import { s3Client } from "../libs/s3Client.js";
+import { GetObjectTaggingCommand } from "@aws-sdk/client-s3";
 
-// Instantialize S3
-const S3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  signatureVersion: 'v4'
-});
-// Is 'Instantialize' a real word?
-
-module.exports.handler = async (event) => {
+// ************
+// Main handler
+export const handler = async (event) => {
   console.log('Received event: ' + JSON.stringify(event,null,2)); // DEBUG:
 
   // *** Check that records, s3, etc etc actually exists...
@@ -20,17 +17,25 @@ module.exports.handler = async (event) => {
   // **************************************
 
   // *** if the above exists...
-  const resp = await S3.getObjectTagging({
+  await s3Client.send(new GetObjectTaggingCommand({
     Bucket: bucket,
     Key: key
-  }).promise();
+  }))
+  .then((resp) => {
+    console.log('resp: ' + JSON.stringify(resp,null,2));  // DEBUG:
 
-  // *** .then()...
-  console.log('resp: ' + JSON.stringify(resp,null,2));  // DEBUG:
+    let labels = resp?.TagSet.find(o => o.Key === 'labels')?.Value;
+    console.log(`labels: ${labels}`); // DEBUG
+    labels = labels?.split(':');
+    console.log('labels: ' + JSON.stringify(labels,null,2));  // DEBUG:
+  
+    // ***.then() add the object name to json for each label...
+  })
+  .then(() => {
+    return;
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
-  let labels = resp?.TagSet.find(o => o.Key === 'labels')?.Value;
-  labels = labels?.Value.split(':');
-  console.log('labels: ' + JSON.stringify(labels,null,2));  // DEBUG:
-
-  // ***.then() add the object name to json for each label...
 };
